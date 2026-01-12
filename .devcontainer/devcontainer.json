@@ -41,6 +41,7 @@
   "mounts": [
     "source=claude-code-bashhistory-${devcontainerId},target=/commandhistory,type=volume",
     "source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume",
+    "source=codex-config-${devcontainerId},target=/home/node/.codex,type=volume",
     "source=claude-code-zsh-${devcontainerId},target=/home/node/.zsh,type=volume"
   ],
   "containerEnv": {
@@ -52,6 +53,6 @@
   "postCreateCommand": "[ -f \"$ZDOTDIR/.zshrc\" ] || cp /home/node/.zshrc \"$ZDOTDIR/.zshrc\" && git config --global user.email \"yuehpass@gmail.com\" && git config --global user.name \"Jason Hu\"",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
   "workspaceFolder": "/workspace",
-  "postStartCommand": "sudo /usr/local/bin/init-firewall.sh",
+  "postStartCommand": "sudo /usr/local/bin/init-firewall.sh && { sudo /usr/local/bin/allowed-domains-refresh.sh || true; (while true; do sleep 600; sudo /usr/local/bin/allowed-domains-refresh.sh || true; done) & }",
   "waitFor": "postStartCommand"
 }

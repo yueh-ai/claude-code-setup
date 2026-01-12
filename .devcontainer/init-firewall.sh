@@ -27,6 +27,8 @@ fi
 # First allow DNS and localhost before any restrictions
 # Allow outbound DNS
 iptables -A OUTPUT -p udp --dport 53 -j ACCEPT
+iptables -A OUTPUT -p tcp --dport 53 -j ACCEPT
+
 # Allow inbound DNS responses
 iptables -A INPUT -p udp --sport 53 -j ACCEPT
 # Allow outbound SSH
@@ -76,7 +78,8 @@ for domain in \
     "vscode.blob.core.windows.net" \
     "update.code.visualstudio.com" \
     "auth.openai.com" \
-    "api.openai.com"; do
+    "api.openai.com"\
+    "chatgpt.com"; do
     echo "Resolving $domain..."
     ips=$(dig +noall +answer A "$domain" | awk '$4 == "A" {print $5}')
     if [ -z "$ips" ]; then

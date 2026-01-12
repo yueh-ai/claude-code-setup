@@ -9,6 +9,7 @@ ARG CLAUDE_CODE_VERSION=latest
 RUN apt-get update && apt-get install -y --no-install-recommends \
   less \
   git \
+  openssh-client \
   procps \
   sudo \
   fzf \
@@ -45,8 +46,9 @@ RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhisto
 ENV DEVCONTAINER=true
 
 # Create workspace and config directories and set permissions
-RUN mkdir -p /workspace /home/node/.claude /home/node/.zsh && \
-  chown -R node:node /workspace /home/node/.claude /home/node/.zsh
+RUN mkdir -p /workspace /home/node/.claude /home/node/.codex /home/node/.zsh /home/node/.ssh && \
+  chown -R node:node /workspace /home/node/.claude /home/node/.codex /home/node/.zsh /home/node/.ssh && \
+  chmod 700 /home/node/.ssh
 
 WORKDIR /workspace
 
@@ -85,10 +87,13 @@ RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 RUN npm i -g @openai/codex
 
 
-# Copy and set up firewall script
-COPY init-firewall.sh /usr/local/bin/
+# Copy scripts
+COPY init-firewall.sh /usr/local/bin/init-firewall.sh
+COPY allowed-domains-refresh.sh /usr/local/bin/allowed-domains-refresh.sh
+
 USER root
-RUN chmod +x /usr/local/bin/init-firewall.sh && \
-  echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh" > /etc/sudoers.d/node-firewall && \
+RUN chmod +x /usr/local/bin/init-firewall.sh \
+    /usr/local/bin/allowed-domains-refresh.sh && \
+  echo "node ALL=(root) NOPASSWD: /usr/local/bin/init-firewall.sh, /usr/local/bin/allowed-domains-refresh.sh" > /etc/sudoers.d/node-firewall && \
   chmod 0440 /etc/sudoers.d/node-firewall
 USER node
