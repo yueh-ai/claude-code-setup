@@ -59,7 +59,7 @@ RUN ARCH=$(dpkg --print-architecture) && \
 
 # Set up non-root user
 USER node
-#testing
+
 
 # Install global packages
 ENV NPM_CONFIG_PREFIX=/usr/local/share/npm-global
