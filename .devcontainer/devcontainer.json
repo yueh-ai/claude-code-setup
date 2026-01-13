@@ -50,7 +50,7 @@
     "POWERLEVEL9K_DISABLE_GITSTATUS": "true",
     "ZDOTDIR": "/home/node/.zsh"
   },
-  "postCreateCommand": "[ -f \"$ZDOTDIR/.zshrc\" ] || cp /home/node/.zshrc \"$ZDOTDIR/.zshrc\" && git config --global user.email \"yuehpass@gmail.com\" && git config --global user.name \"Jason Hu\"",
+  "postCreateCommand": "[ -f \"$ZDOTDIR/.zshrc\" ] || cp /home/node/.zshrc \"$ZDOTDIR/.zshrc\"",
   "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=delegated",
   "workspaceFolder": "/workspace",
   "postStartCommand": "sudo /usr/local/bin/init-firewall.sh && { sudo /usr/local/bin/allowed-domains-refresh.sh || true; (while true; do sleep 600; sudo /usr/local/bin/allowed-domains-refresh.sh || true; done) & }",
