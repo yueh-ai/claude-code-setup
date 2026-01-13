@@ -46,9 +46,8 @@ RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhisto
 ENV DEVCONTAINER=true
 
 # Create workspace and config directories and set permissions
-RUN mkdir -p /workspace /home/node/.claude /home/node/.codex /home/node/.zsh /home/node/.ssh && \
-  chown -R node:node /workspace /home/node/.claude /home/node/.codex /home/node/.zsh /home/node/.ssh && \
-  chmod 700 /home/node/.ssh
+RUN mkdir -p /workspace /home/node/.claude /home/node/.codex /home/node/.zsh && \
+  chown -R node:node /workspace /home/node/.claude /home/node/.codex /home/node/.zsh
 
 WORKDIR /workspace
 
