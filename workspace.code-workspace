@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "name": "voice-to-text",
+      "path": "projects/voice-to-text"
+    }
+    // Add more projects here as needed:
+    // {
+    //   "name": "another-project",
+    //   "path": "projects/another-project"
+    // }
+  ],
+  "settings": {
+    // Shared settings across all projects
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/.pytest_cache": true
+    }
+  }
+}
